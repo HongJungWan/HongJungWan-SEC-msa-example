@@ -1,0 +1,53 @@
+server:
+  port: 0 # 0 랜덤 포트를 사용하겠다는 의미
+spring:
+  application:
+    name: user-service
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}  # 포트번호를 0으로 하면 인스턴스 식별이 안되기 때문에 랜덤 포트번호로 식별할 수 있도록 instance-id 설정 안그럼 서버에서 식별못함
+    hostname: ${spring.cloud.client.ip-address}
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+greeting:
+  message: Welcome to the simple E-commerce.
+
+logging:
+  level:
+    com.example.userservice.client: debug
+
+
+#token:
+#  expiration_time: 86400000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus  # (refresh) 현재 마이크로 서비스에 있는 config 서버에서 가져와야할 정보를 refresh 하겠다
+#  secret: user_token
