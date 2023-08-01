@@ -1,0 +1,27 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  profiles:
+    active: native
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    config:
+      server:
+        native :
+          search-locations: C:\Users\PC\Desktop\msa\native-file-repo
+        git:
+          uri: https://github.com/ha-jinwoo/spring-cloud-config
+          #          username:  # private 인 경우
+          #          password:  # private 인 경우
+management:
+  endpoint:
+    web:
+      exposure:
+        include: health, busrefresh
