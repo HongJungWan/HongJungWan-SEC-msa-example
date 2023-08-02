@@ -4,8 +4,7 @@
 
 ### 📰 과제
 
-Java 및 Spring Boot를 이용하여, EKS(Amazon Elastic Kubernetes Service)와 AKS(Azure Kubernetes Service)에서 운용 가능하며, \
-Lambda Function과 Azure Serverless Function과 연동 가능한 예제 코드 준비
+Java 및 Spring Boot를 이용하여, EKS(Amazon Elastic Kubernetes Service)와 AKS(Azure Kubernetes Service)에서 운용 가능하며, Lambda Function과 Azure Serverless Function과 연동 가능한 예제 코드 준비
 
 <br><br>
 
