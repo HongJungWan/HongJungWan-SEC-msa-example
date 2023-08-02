@@ -14,10 +14,10 @@ spring:
   cloud:
     config:
       server:
-        native :
+        native:
           search-locations: C:\Users\PC\Desktop\msa\native-file-repo
         git:
-          uri: https://github.com/ha-jinwoo/spring-cloud-config
+          uri: https://github.com/HongJungWan/HongJungWan-SEC-msa-config
           #          username:  # private 인 경우
           #          password:  # private 인 경우
 management:
