@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -60,24 +59,12 @@ public class OrderController {
     }
 
     @GetMapping("/{userId}/orders")
-    public ResponseEntity<List<ResponseOrder>> createOrder(@PathVariable String userId) throws Exception{
+    public ResponseEntity<List<ResponseOrder>> createOrder(@PathVariable String userId) throws Exception {
         log.info("Before retrieve orders microservice");
         Iterable<OrderEntity> orders = orderService.getOrdersByUserId(userId);
 
         List<ResponseOrder> result = new ArrayList<>();
-        orders.forEach(v -> {
-            result.add(new ModelMapper().map(v, ResponseOrder.class));
-        });
-
-        try {
-            Thread.sleep(1000);
-            throw new Exception("장애 발생");
-        } catch (InterruptedException ex) {
-            log.warn(ex.getMessage());
-        }
-
-        log.info("After retrieve orders microservice");
-
+        orders.forEach(v -> result.add(new ModelMapper().map(v, ResponseOrder.class)));
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
