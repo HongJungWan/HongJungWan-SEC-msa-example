@@ -1,14 +1,8 @@
 server:
-  port: 0 # 0 랜덤 포트를 사용하겠다는 의미
+  port: 0
 spring:
   application:
     name: order-service
-  zipkin:
-    base-url: http://127.0.0.1:9411
-    enabled: true
-  sleuth:
-    sampler:
-      probability: 1.0
   h2:
     console:
       enabled: true
@@ -29,7 +23,7 @@ spring:
 #    password: test1357
 eureka:
   instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}   # 포트번호를 0으로 하면 인스턴스 식별이 안되기 때문에 랜덤 포트번호로 식별할 수 있도록 instance-id 설정 안그럼 서버에서 식별못함
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
     hostname: localhost
     lease-renewal-interval-in-seconds: 1
     lease-expiration-duration-in-seconds: 2
