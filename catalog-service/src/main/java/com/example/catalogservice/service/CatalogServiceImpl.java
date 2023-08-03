@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CatalogServiceImpl implements CatalogService{
+public class CatalogServiceImpl implements CatalogService {
 
     private final CatalogRepository catalogRepository;
 
