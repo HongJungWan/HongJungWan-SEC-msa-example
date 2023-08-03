@@ -5,23 +5,15 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.jpa.UserEntity;
 import com.example.userservice.jpa.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final RestTemplate restTemplate;
-    private final Environment environment;
     private final OrderServiceClient orderServiceClient;
-    private final CircuitBreakerFactory circuitBreakerFactory;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -61,28 +50,7 @@ public class UserServiceImpl implements UserService {
         }
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
-//        String orderUrl = String.format(environment.getProperty("order-service.url"), userId);
-//
-//        /* using a RestTemplate */
-//        ResponseEntity<List<ResponseOrder>> orderListResponse = restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-//                new ParameterizedTypeReference<List<ResponseOrder>>() {
-//                });
-//        List<ResponseOrder> orders = orderListResponse.getBody();
-
-        /* Feign Exception Handling */
-//        List<ResponseOrder> orders = null;
-//        try {
-//            orders = orderServiceClient.getOrders(userId);
-//        } catch (FeignException ex) {
-//            log.error(ex.getMessage());
-//        }
-        /* ErrorDecoder */
-//        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
-        log.info("Before call orders microservice");
-        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
-        List<ResponseOrder> orders = circuitbreaker.run(() -> orderServiceClient.getOrders(userId),
-                throwable -> new ArrayList<>());
-        log.info("After called orders microservice");
+        List<ResponseOrder> orders = orderServiceClient.getOrders(userId);
         userDto.setOrders(orders);
 
         return userDto;

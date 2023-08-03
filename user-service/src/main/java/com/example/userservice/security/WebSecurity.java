@@ -18,15 +18,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final Environment env;
     private final UserService userService;
     private final BCryptPasswordEncoder bEncryptPasswordEncoder;
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-//        http.authorizeRequests().antMatchers("/users/**").permitAll();
         http.authorizeRequests().antMatchers("/actuator/**").permitAll();
         http.authorizeRequests().antMatchers("/**")
                 .hasIpAddress(env.getProperty("spring.cloud.client.ip-address"))
