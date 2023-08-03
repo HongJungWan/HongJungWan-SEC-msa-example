@@ -9,8 +9,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @Component
+@Slf4j
 public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Config> {
 
     public GlobalFilter() {
@@ -19,7 +19,6 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 
     @Override
     public GatewayFilter apply(Config config) {
-        // custom pre filter
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
@@ -27,10 +26,9 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
             log.info("Global Filter baseMessage : {}", config.getBaseMessage());
 
             if (config.isPreLogger()) {
-                log.info("Global Filter Start: request id -> {}", request.getId());
+                log.info("Global PRE filter: request uri -> {}", request.getURI());
             }
 
-            // custom post filter
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 if (config.isPostLogger()) {
                     log.info("Global Post End: response code -> {}", response.getStatusCode());
