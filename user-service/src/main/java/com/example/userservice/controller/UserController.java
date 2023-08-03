@@ -46,7 +46,6 @@ public class UserController {
     @GetMapping("/welcome")
     @Timed(value = "users.welcome", longTask = true)
     public String welcome() {
-//        return env.getProperty("greeting.message");
         return greeting.getMessage();
     }
 
@@ -57,18 +56,17 @@ public class UserController {
 
         UserDto userDto = mapper.map(user, UserDto.class);
         userService.createUser(userDto);
-
         ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUser>> getUsers() {
         Iterable<UserEntity> users = userService.getUserByAll();
-
         ArrayList<ResponseUser> result = new ArrayList<>();
-
         users.forEach(v -> result.add(new ModelMapper().map(v, ResponseUser.class)));
+
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -76,7 +74,7 @@ public class UserController {
     public ResponseEntity<ResponseUser> getUser(@PathVariable String userId) {
         UserDto userDto = userService.getUserByUserId(userId);
         ResponseUser responseUser = new ModelMapper().map(userDto, ResponseUser.class);
-        System.out.println(responseUser);
+
         return ResponseEntity.status(HttpStatus.OK).body(responseUser);
     }
 }

@@ -13,8 +13,6 @@ public class UserDto {
     private String pwd;
     private String userId;
     private LocalDateTime createdAt;
-
     private String encryptedPwd;
-
     private List<ResponseOrder> orders;
 }
